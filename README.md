@@ -2,7 +2,6 @@
 
 Premium photography platform — discover photographers, browse the marketplace, and manage portfolios.
 
-Original design: [Figma — UJAS PhotoHub](https://www.figma.com/design/IIb8ERZmspd9NFSo0PJjAK/UJAS-PhotoHub-Design-Prompt)
 
 ## Stack
 
@@ -50,7 +49,6 @@ app/
 
 components/
 ├── ui/             # shadcn components
-├── figma/
 └── photohub/       # App pages and UI
 
 lib/
