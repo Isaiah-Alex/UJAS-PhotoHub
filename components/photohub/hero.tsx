@@ -1,16 +1,15 @@
 "use client"
 
+import Link from "next/link";
 import { photographers } from "@/lib/photohub-data";
 import { UImg } from "./helpers";
 import { Zap } from "lucide-react";
 import { GradBtn, GlassBtn } from "./btn";
 import { ArrowRight, Play, CheckCircle, TrendingUp, ShoppingCart } from "lucide-react";
 import { formatMoney, SITE_STATS } from "@/lib/site-config";
-import { PAGE_PATHS, useNavigate } from "@/lib/pageNavigation";
 
 
 export default function Hero() {
-  const setPage = useNavigate();
   const featured = photographers[0];
   const booked = photographers[1];
   return (
@@ -55,13 +54,14 @@ export default function Hero() {
           </p>
 
           <div className="flex flex-wrap gap-3">
-            <GradBtn
-              onClick={() => setPage("explore")}
-              className="flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm group"
+            <Link
+              href="/explore"
+              className="flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm group text-white font-semibold transition-all hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
+              style={{ background: "linear-gradient(135deg, var(--primary) 0%, var(--chart-5) 100%)", boxShadow: "0 0 24px var(--primary-glow)" }}
             >
               Explore Photographers
               <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
-            </GradBtn>
+            </Link>
             <GlassBtn className="flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm">
               <Play size={15} />
               Start Selling

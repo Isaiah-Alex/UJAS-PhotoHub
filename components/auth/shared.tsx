@@ -11,7 +11,7 @@ export function AuthImage({
   alt,
   className,
 }: {
-  name: ImageKey | string;
+  name: ImageKey;
   alt: string;
   className?: string;
 }) {

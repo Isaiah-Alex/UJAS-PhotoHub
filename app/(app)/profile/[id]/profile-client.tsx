@@ -1,20 +1,37 @@
-"use client"
+"use client";
 
 import { UImg, Stars } from "@/components/photohub/helpers";
 import { Award, MapPin, Users, Star, CheckCircle, Banknote, Heart, Share2 } from "lucide-react";
-import { photographers, portfolioImages, testimonials, marketplaceItems } from "@/lib/photohub-data";
+import {
+  getPhotographerById,
+  getPhotographerMarketplaceItems,
+  getPhotographerPortfolio,
+  getPhotographerTestimonials,
+} from "@/lib/photohub-data";
 import { useState } from "react";
 import { GradBtn, GlassBtn } from "@/components/photohub/btn";
 import { formatHourlyRate, formatMoney } from "@/lib/site-config";
+import { useRouter, usePathname } from "next/navigation";
 
+type Props = {
+  id: string;
+};
 
-
-
-
-export default function ProfilePage() {
+export function ProfileClient({ id }: Props) {
   const [activeTab, setActiveTab] = useState("Portfolio");
-  const p = photographers[0];
+  const p = getPhotographerById(id);
+
+  const router = useRouter();
+  const pathname = usePathname();
+
+  if (!p) {
+    return <div>Photographer not found</div>;
+  }
+
   const tabs = ["Portfolio", "About", "Reviews", "Marketplace"];
+  const portfolio = getPhotographerPortfolio(p.id);
+  const reviews = getPhotographerTestimonials(p.id);
+  const marketplaceItems = getPhotographerMarketplaceItems(p.id);
 
   return (
     <div className="min-h-screen">
@@ -46,7 +63,7 @@ export default function ProfilePage() {
               </div>
               <div className="flex gap-2.5">
                 <GlassBtn className="px-5 py-2.5 rounded-xl text-sm">Follow</GlassBtn>
-                <GradBtn className="px-5 py-2.5 rounded-xl text-sm">Book Now</GradBtn>
+                <GradBtn onClick={() => router.push(`${pathname}/booking`)} className="px-5 py-2.5 rounded-xl text-sm">Book Now</GradBtn>
               </div>
             </div>
           </div>
@@ -88,13 +105,13 @@ export default function ProfilePage() {
         {/* Portfolio */}
         {activeTab === "Portfolio" && (
           <div className="columns-2 md:columns-3 [column-gap:0.75rem] mb-14">
-            {portfolioImages.map(({ id, h }, i) => (
+            {portfolio.map(({ id, h, title }) => (
               <div
-                key={i}
+                key={id}
                 className="group relative rounded-xl overflow-hidden mb-3 cursor-pointer break-inside-avoid"
                 style={{ height: h }}
               >
-                <UImg name={id} alt={`Portfolio ${i + 1}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.05]" />
+                <UImg name={id} alt={title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.05]" />
                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center gap-2">
                   <button className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white backdrop-blur-sm border border-white/20 hover:bg-white/25 transition-all">
                     <Heart size={13} />
@@ -120,7 +137,7 @@ export default function ProfilePage() {
             <div className="p-6 rounded-2xl bg-muted border border-white/5">
               <h3 className="font-semibold text-white mb-4">Specializations</h3>
               <div className="flex flex-wrap gap-2">
-                {["Portrait", "Fashion Editorial", "Beauty", "Lifestyle", "Commercial", "Fine Art"].map((s) => (
+                {p.specializations.map((s) => (
                   <span key={s} className="px-3 py-1.5 rounded-lg bg-white/5 text-sm text-white/55 border border-white/8">{s}</span>
                 ))}
               </div>
@@ -128,7 +145,7 @@ export default function ProfilePage() {
             <div className="p-6 rounded-2xl bg-muted border border-white/5">
               <h3 className="font-semibold text-white mb-4">Equipment</h3>
               <div className="space-y-2.5">
-                {["Canon EOS R5 — Primary Body", "Sony A7R IV — Backup Body", "Canon 85mm f/1.2L — Portraits", "Canon 24-70mm f/2.8L — Versatility"].map((e) => (
+                {p.equipment.map((e) => (
                   <div key={e} className="flex items-center gap-2 text-sm text-white/45">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary" />
                     {e}
@@ -142,8 +159,8 @@ export default function ProfilePage() {
         {/* Reviews */}
         {activeTab === "Reviews" && (
           <div className="space-y-4 mb-14 max-w-2xl">
-            {[...testimonials, ...testimonials.slice(0, 2)].map((t, i) => (
-              <div key={i} className="p-5 rounded-2xl bg-muted border border-white/5">
+            {reviews.map((t) => (
+              <div key={t.id} className="p-5 rounded-2xl bg-muted border border-white/5">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-2.5">
                     <div className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0">
@@ -162,7 +179,7 @@ export default function ProfilePage() {
           </div>
         )}
 
-        {/* Marketplace tab */}
+        {/* Marketplace */}
         {activeTab === "Marketplace" && (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-14">
             {marketplaceItems.map((item) => (

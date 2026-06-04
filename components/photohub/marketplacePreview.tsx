@@ -1,6 +1,6 @@
 "use client"
 
-import { useNavigate } from "@/lib/pageNavigation";
+import Link from "next/link";
 import { ChevronRight, Heart, Download } from "lucide-react";
 import { marketplaceItems } from "@/lib/photohub-data";
 import { UImg } from "./helpers";
@@ -10,7 +10,6 @@ import { formatMoney } from "@/lib/site-config";
 
 
 export default function MarketplacePreview() {
-  const setPage = useNavigate();
   return (
     <section className="py-20 px-4">
       <div className="max-w-7xl mx-auto">
@@ -19,12 +18,12 @@ export default function MarketplacePreview() {
             <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-3">Digital Store</p>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight">Photo Marketplace</h2>
           </div>
-          <button
-            onClick={() => setPage("marketplace")}
+          <Link
+            href="/marketplace"
             className="hidden md:flex items-center gap-1.5 text-sm text-white/40 hover:text-white transition-colors"
           >
             Browse all <ChevronRight size={15} />
-          </button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

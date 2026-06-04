@@ -2,19 +2,23 @@
 
 import { useState } from "react";
 import { Search, Filter, Heart, Share2, Download } from "lucide-react";
-import { marketplaceItems } from "@/lib/photohub-data";
+import { filterMarketplaceItems } from "@/lib/photohub-data";
 import { GradBtn } from "@/components/photohub/btn";
 import { UImg } from "@/components/photohub/helpers";
 import { formatMoney } from "@/lib/site-config";
 
 export default function MarketplacePage() {
   const [activeFilter, setActiveFilter] = useState("Popular");
+  const [search, setSearch] = useState("");
   const [saved, setSaved] = useState<number[]>([]);
 
   const filters = ["Popular", "Latest", "Price: Low", "Price: High", "Top Rated"];
   const heights = [280, 340, 300, 260, 320, 290, 310, 270, 330, 285, 315, 260, 300, 340, 275, 295];
 
-  const allItems = [...marketplaceItems, ...marketplaceItems];
+  const allItems = filterMarketplaceItems({
+    search,
+    sort: activeFilter as Parameters<typeof filterMarketplaceItems>[0]["sort"],
+  });
 
   return (
     <div className="pt-24 min-h-screen">
@@ -28,6 +32,8 @@ export default function MarketplacePage() {
           <div className="flex-1 relative">
             <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30" />
             <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               placeholder="Search photos, themes, styles..."
               className="w-full pl-10 pr-4 py-3 rounded-xl bg-muted border border-white/8 text-sm text-white placeholder-white/25 outline-none focus:border-primary/50 transition-colors"
             />
@@ -98,6 +104,13 @@ export default function MarketplacePage() {
             </div>
           ))}
         </div>
+
+        {allItems.length === 0 && (
+          <div className="mb-16 rounded-2xl border border-white/8 bg-muted p-8 text-center">
+            <p className="font-display text-2xl font-bold text-white">No marketplace items found</p>
+            <p className="mt-2 text-sm text-white/40">Try another search term or sort option.</p>
+          </div>
+        )}
       </div>
     </div>
   );

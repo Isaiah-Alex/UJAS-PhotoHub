@@ -1,7 +1,7 @@
 "use client"
 
-import { useNavigate } from "@/lib/pageNavigation";
 import { useState } from "react";
+import Link from "next/link";
 import { ChevronRight, Users, MapPin, Bookmark } from "lucide-react";
 import { UImg } from "./helpers";
 import { photographers } from "@/lib/photohub-data";
@@ -10,7 +10,6 @@ import { GradBtn } from "./btn";
 import { formatHourlyRate } from "@/lib/site-config";
 
 export default function FeaturedPhotographers() {
-  const setPage = useNavigate();
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
@@ -20,12 +19,12 @@ export default function FeaturedPhotographers() {
           <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-3">Featured Artists</p>
           <h2 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight">Top Photographers</h2>
         </div>
-        <button
-          onClick={() => setPage("explore")}
+        <Link
+          href="/explore"
           className="hidden md:flex items-center gap-1.5 text-sm text-white/40 hover:text-white transition-colors"
         >
           View all <ChevronRight size={15} />
-        </button>
+        </Link>
       </div>
 
       {/* Large cards row */}
@@ -37,8 +36,8 @@ export default function FeaturedPhotographers() {
             style={{ height: 420 }}
             onMouseEnter={() => setHovered(p.id)}
             onMouseLeave={() => setHovered(null)}
-            onClick={() => setPage("profile")}
           >
+            <Link href={`/profile/${p.id}`} className="absolute inset-0 z-20" aria-label={`View ${p.name}'s profile`} />
             <UImg name={p.cover} alt={p.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
             <div
               className="absolute inset-0 transition-all duration-500"
@@ -80,7 +79,7 @@ export default function FeaturedPhotographers() {
               </div>
             </div>
 
-            <button className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/50 hover:text-white border border-white/10 transition-all opacity-0 group-hover:opacity-100">
+            <button className="absolute top-4 right-4 z-30 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/50 hover:text-white border border-white/10 transition-all opacity-0 group-hover:opacity-100">
               <Bookmark size={13} />
             </button>
           </div>
@@ -90,10 +89,10 @@ export default function FeaturedPhotographers() {
       {/* Compact row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {photographers.slice(3, 6).map((p) => (
-          <div
+          <Link
             key={p.id}
+            href={`/profile/${p.id}`}
             className="group flex items-center gap-3 p-3.5 rounded-2xl bg-muted border border-white/5 hover:border-white/15 cursor-pointer transition-all duration-300"
-            onClick={() => setPage("profile")}
           >
             <div className="w-14 h-14 rounded-xl overflow-hidden flex-shrink-0">
               <UImg name={p.avatar} alt={p.name} className="w-full h-full object-cover" />
@@ -107,7 +106,7 @@ export default function FeaturedPhotographers() {
               </div>
             </div>
             <div className={`w-2 h-2 rounded-full flex-shrink-0 ${p.available ? "bg-chart-2" : "bg-white/20"}`} />
-          </div>
+          </Link>
         ))}
       </div>
     </section>

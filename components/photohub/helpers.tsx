@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { imageSrc } from "@/lib/images";
+import type { ImageKey } from "@/lib/images";
 import { Star } from "lucide-react";
 
 export const UImg = ({
@@ -7,7 +8,7 @@ export const UImg = ({
   alt,
   className,
 }: {
-  name: string;
+  name: ImageKey;
   alt: string;
   className?: string;
 }) => (
@@ -16,8 +17,8 @@ export const UImg = ({
     alt={alt}
     className={className}
     loading="lazy"
-    width={500}
-    height={800}
+    width={800}
+    height={1000}
 
   />
 );

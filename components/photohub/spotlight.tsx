@@ -1,12 +1,11 @@
 "use client"
 
-import { GradBtn, GlassBtn } from './btn'
+import Link from 'next/link';
+import { GlassBtn } from './btn'
 import { UImg } from './helpers';
 import { photographers } from '@/lib/photohub-data';
-import { useNavigate } from '@/lib/pageNavigation';
 
 export default function Spotlight() {
-  const setPage = useNavigate();
   const p = photographers[2];
 
   return (
@@ -37,9 +36,13 @@ export default function Spotlight() {
           </div>
 
           <div className="flex gap-3">
-            <GradBtn onClick={() => setPage("profile")} className="px-6 py-3 rounded-xl text-sm">
+            <Link
+              href={`/profile/${p.id}`}
+              className="px-6 py-3 rounded-xl text-sm text-white font-semibold transition-all hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
+              style={{ background: "linear-gradient(135deg, var(--primary) 0%, var(--chart-5) 100%)", boxShadow: "0 0 24px var(--primary-glow)" }}
+            >
               View Portfolio
-            </GradBtn>
+            </Link>
             <GlassBtn className="px-6 py-3 rounded-xl text-sm">
               Book Now
             </GlassBtn>

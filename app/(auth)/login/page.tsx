@@ -47,9 +47,15 @@ export default function LoginPage() {
     }, 1400);
     setTimeout(() => {
       setDone(false);
-      router.push("/");
+      if (role === "client") {
+        router.push("/");
+      } else if (role === "photographer") {
+        router.push("/dashboard");
+      }
     }, 2600);
   };
+
+
 
   return (
     <div className="min-h-screen flex">

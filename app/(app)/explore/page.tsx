@@ -1,18 +1,18 @@
 "use client"
-import { useNavigate } from "@/lib/pageNavigation";
 import { useState } from "react";
+import Link from "next/link";
 import { Search, Filter, MapPin, Bookmark } from "lucide-react";
-import { photographers } from "@/lib/photohub-data";
+import { categories, filterPhotographers } from "@/lib/photohub-data";
 import { UImg, Stars } from "@/components/photohub/helpers";
 
 
 
 export default function ExplorePage() {
-  const setPage = useNavigate();
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
 
-  const cats = ["All", "Portrait", "Wedding", "Street", "Nature", "Fashion", "Corporate", "Lifestyle"];
+  const cats = ["All", ...categories.map((category) => category.name)];
+  const results = filterPhotographers({ search, category: activeCategory as Parameters<typeof filterPhotographers>[0]["category"] });
 
   const heights = [340, 420, 280, 390, 350, 260, 410, 300, 370, 310, 440, 290];
 
@@ -61,13 +61,13 @@ export default function ExplorePage() {
 
         {/* Masonry grid */}
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 [column-gap:1rem] mb-16">
-          {[...photographers, ...photographers].map((p, i) => (
+          {results.map((p, i) => (
             <div
-              key={`${p.id}-${i}`}
+              key={p.id}
               className="group relative rounded-2xl overflow-hidden cursor-pointer mb-4 break-inside-avoid"
               style={{ height: heights[i % heights.length] }}
-              onClick={() => setPage("profile")}
             >
+              <Link href={`/profile/${p.id}`} className="absolute inset-0 z-10" aria-label={`View ${p.name}'s profile`} />
               <UImg name={p.cover} alt={p.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.05]" />
               <div className="absolute inset-0 transition-all duration-400" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.88) 0%, transparent 55%)" }} />
               <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-all duration-300" />
@@ -93,12 +93,19 @@ export default function ExplorePage() {
                 </div>
               </div>
 
-              <button className="absolute top-3 right-3 w-7 h-7 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white/50 hover:text-white border border-white/10 transition-all opacity-0 group-hover:opacity-100">
+              <button className="absolute top-3 right-3 z-20 w-7 h-7 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white/50 hover:text-white border border-white/10 transition-all opacity-0 group-hover:opacity-100">
                 <Bookmark size={12} />
               </button>
             </div>
           ))}
         </div>
+
+        {results.length === 0 && (
+          <div className="mb-16 rounded-2xl border border-white/8 bg-muted p-8 text-center">
+            <p className="font-display text-2xl font-bold text-white">No photographers found</p>
+            <p className="mt-2 text-sm text-white/40">Try another search term or category.</p>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Navbar from "@/components/photohub/navbar";
+import Navbar from "@/components/navbar/navbar";
+import { useNotifications } from "@/hooks/useNotifications";
 
 export default function AppLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+                                    children,
+                                  }: Readonly<{ children: React.ReactNode }>) {
   const [scrolled, setScrolled] = useState(false);
+  const notifications = useNotifications();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -17,9 +17,9 @@ export default function AppLayout({
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-white">
-      <Navbar scrolled={scrolled} />
-      {children}
-    </div>
+      <div className="min-h-screen bg-background text-white">
+        <Navbar scrolled={scrolled} notifications={notifications} />
+        {children}
+      </div>
   );
 }
