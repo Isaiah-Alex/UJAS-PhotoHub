@@ -1,6 +1,6 @@
 "use client";
 
-import { UImg, Stars } from "@/components/photohub/helpers";
+import { UImg, Stars } from "@/components/photohub/Helpers";
 import { Award, MapPin, Users, Star, CheckCircle, Banknote, Heart, Share2 } from "lucide-react";
 import {
   getPhotographerById,
@@ -9,7 +9,7 @@ import {
   getPhotographerTestimonials,
 } from "@/lib/photohub-data";
 import { useState } from "react";
-import { GradBtn, GlassBtn } from "@/components/photohub/btn";
+import { GradBtn, GlassBtn } from "@/components/photohub/Btn";
 import { formatHourlyRate, formatMoney } from "@/lib/site-config";
 import { useRouter, usePathname } from "next/navigation";
 

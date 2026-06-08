@@ -1,6 +1,6 @@
 import { testimonials } from "@/lib/photohub-data";
 import { Star } from "lucide-react";
-import { UImg } from "./helpers";
+import { UImg } from "./Helpers";
 
 
 export default function Testimonials() {

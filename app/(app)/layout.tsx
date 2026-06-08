@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Navbar from "@/components/navbar/navbar";
+import Navbar from "@/components/navbar/Navbar";
 import { useNotifications } from "@/hooks/useNotifications";
 
 export default function AppLayout({

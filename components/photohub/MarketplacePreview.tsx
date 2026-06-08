@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { ChevronRight, Heart, Download } from "lucide-react";
 import { marketplaceItems } from "@/lib/photohub-data";
-import { UImg } from "./helpers";
-import { GradBtn } from "./btn";
+import { UImg } from "./Helpers";
+import { GradBtn } from "./Btn";
 import { formatMoney } from "@/lib/site-config";
 
 

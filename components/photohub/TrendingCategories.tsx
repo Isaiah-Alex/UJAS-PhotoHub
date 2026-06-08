@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-import { UImg } from "./helpers";
+import { UImg } from "./Helpers";
 import { categories } from "@/lib/photohub-data";
 
 

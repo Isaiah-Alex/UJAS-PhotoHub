@@ -1,7 +1,7 @@
 "use client";
 
 import { Star, MapPin, CalendarDays, Clock, Info, Award, Lock, CheckCircle } from "lucide-react";
-import { UImg } from "@/components/photohub/helpers";
+import { UImg } from "@/components/photohub/Helpers";
 import { type Photographer } from "@/lib/photohub-data";
 import { MONTHS, extras, calcPricing, type SessionType } from "@/lib/booking-utils";
 import { CURRENCY, formatMoney } from "@/lib/site-config";

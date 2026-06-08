@@ -1,5 +1,5 @@
 import { Aperture, Twitter, Instagram, Camera } from "lucide-react";
-import { GradBtn } from "./btn";
+import { GradBtn } from "./Btn";
 
 
 

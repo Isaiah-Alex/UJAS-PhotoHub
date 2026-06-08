@@ -1,8 +1,8 @@
 "use client"
 
 import Link from 'next/link';
-import { GlassBtn } from './btn'
-import { UImg } from './helpers';
+import { GlassBtn } from './Btn'
+import { UImg } from './Helpers';
 import { photographers } from '@/lib/photohub-data';
 
 export default function Spotlight() {

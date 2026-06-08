@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { photographers } from "@/lib/photohub-data";
-import { UImg } from "./helpers";
+import { UImg } from "./Helpers";
 import { Zap } from "lucide-react";
-import { GradBtn, GlassBtn } from "./btn";
+import { GradBtn, GlassBtn } from "./Btn";
 import { ArrowRight, Play, CheckCircle, TrendingUp, ShoppingCart } from "lucide-react";
 import { formatMoney, SITE_STATS } from "@/lib/site-config";
 

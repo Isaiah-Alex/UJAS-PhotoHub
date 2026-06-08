@@ -1,14 +1,21 @@
-import Hero from "@/components/photohub/hero";
-import FeaturedPhotographers from "@/components/photohub/feauturedPhotographers";
-import TrendingCategories from "@/components/photohub/trendingCategories";
-import StatsBand from "@/components/photohub/statsBand";
-import MarketplacePreview from "@/components/photohub/marketplacePreview";
-import Spotlight from "@/components/photohub/spotlight";
-import Testimonials from "@/components/photohub/testimonials";
-import Footer from "@/components/photohub/footer";
+import Hero from "@/components/photohub/Hero";
+import FeaturedPhotographers from "@/components/photohub/FeaturedPhotographers";
+import TrendingCategories from "@/components/photohub/TrendingCategories";
+import StatsBand from "@/components/photohub/StatsBand";
+import MarketplacePreview from "@/components/photohub/MarketplacePreview";
+import Spotlight from "@/components/photohub/Spotlight";
+import Testimonials from "@/components/photohub/Testimonials";
+import Footer from "@/components/photohub/Footer";
+import {auth} from "@clerk/nextjs/server";
 
 
 export default function Page() {
+  async function isLoggedIn(){
+    const { isAuthenticated } = await auth()
+    if(!isAuthenticated){
+      console.log("isLoggedIn");
+    }
+  }
   return <main>
     <Hero />
       <StatsBand />

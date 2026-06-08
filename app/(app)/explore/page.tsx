@@ -3,7 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Search, Filter, MapPin, Bookmark } from "lucide-react";
 import { categories, filterPhotographers } from "@/lib/photohub-data";
-import { UImg, Stars } from "@/components/photohub/helpers";
+import { UImg, Stars } from "@/components/photohub/Helpers";
 
 
 

@@ -3,10 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ChevronRight, Users, MapPin, Bookmark } from "lucide-react";
-import { UImg } from "./helpers";
+import { UImg } from "./Helpers";
 import { photographers } from "@/lib/photohub-data";
-import { Stars } from "./helpers";
-import { GradBtn } from "./btn";
+import { Stars } from "./Helpers";
+import { GradBtn } from "./Btn";
 import { formatHourlyRate } from "@/lib/site-config";
 
 export default function FeaturedPhotographers() {

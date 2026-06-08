@@ -27,3 +27,6 @@ next-env.d.ts
 
 # vite (removed)
 .vite
+
+# clerk configuration (can include secrets)
+/.clerk/

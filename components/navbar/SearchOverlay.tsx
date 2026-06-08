@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, X, Camera, ShoppingBag, TrendingUp } from "lucide-react";
-import { UImg } from "@/components/photohub/helpers";
+import { UImg } from "@/components/photohub/Helpers";
 import { photographers, marketplaceItems } from "@/lib/photohub-data";
 
 const QUICK_LINKS = [

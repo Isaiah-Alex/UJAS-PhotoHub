@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { Search, Filter, Heart, Share2, Download } from "lucide-react";
 import { filterMarketplaceItems } from "@/lib/photohub-data";
-import { GradBtn } from "@/components/photohub/btn";
-import { UImg } from "@/components/photohub/helpers";
+import { GradBtn } from "@/components/photohub/Btn";
+import { UImg } from "@/components/photohub/Helpers";
 import { formatMoney } from "@/lib/site-config";
 
 export default function MarketplacePage() {

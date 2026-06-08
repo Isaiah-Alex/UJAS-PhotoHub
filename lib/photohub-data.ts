@@ -461,3 +461,93 @@ export const notificationsData: Notification[] = [
     action: "View item",
   },
 ];
+
+// Dashboard Data
+
+// ── Types ─────────────────────────────────────────────────────────────────────
+
+export type BookingStatus = "confirmed" | "pending" | "completed" | "cancelled";
+export const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+export type DashBooking = {
+  id: string;
+  client: string;
+  avatar: ImageKey;
+  type: string;
+  date: string;
+  time: string;
+  price: number;
+  status: BookingStatus;
+};
+
+export type DashPortfolioItem = {
+  id: number;
+  img: ImageKey;
+  title: string;
+  views: number;
+  likes: number;
+  cat: string;
+};
+
+export type ActivityItem = {
+  type: "sale" | "booking" | "review" | "follow" | "download" | "payout" | "view";
+  text: string;
+  sub: string;
+  time: string;
+};
+
+export type RevenueDataPoint = {
+  month: string;
+  revenue: number;
+  bookings: number;
+};
+
+// ── Revenue data ──────────────────────────────────────────────────────────────
+
+export const revenueData: RevenueDataPoint[] = [
+  { month: "Jan", revenue: 320000,  bookings: 8  },
+  { month: "Feb", revenue: 410000,  bookings: 11 },
+  { month: "Mar", revenue: 380000,  bookings: 9  },
+  { month: "Apr", revenue: 520000,  bookings: 14 },
+  { month: "May", revenue: 470000,  bookings: 12 },
+  { month: "Jun", revenue: 610000,  bookings: 17 },
+  { month: "Jul", revenue: 580000,  bookings: 15 },
+  { month: "Aug", revenue: 720000,  bookings: 19 },
+];
+
+// ── Bookings ──────────────────────────────────────────────────────────────────
+
+export const dashBookings: DashBooking[] = [
+  { id: "B001", client: "Ngozi Adebayo",   avatar: "portrait-woman-3", type: "Fashion Editorial",  date: "Jun 15, 2026", time: "10:00 AM", price: 680000,  status: "confirmed" },
+  { id: "B002", client: "Tunde Williams",  avatar: "portrait-man-1",   type: "Wedding Package",   date: "Jun 22, 2026", time: "9:00 AM",  price: 2200000, status: "pending"   },
+  { id: "B003", client: "Chioma Nwachukwu",avatar: "portrait-woman-4", type: "Corporate Shoot",   date: "Jul 3, 2026",  time: "2:00 PM",  price: 480000,  status: "confirmed" },
+  { id: "B004", client: "Aisha Bello",     avatar: "portrait-woman-2", type: "Portrait Session",  date: "Jul 8, 2026",  time: "11:00 AM", price: 350000,  status: "pending"   },
+  { id: "B005", client: "Emeka Nwosu",     avatar: "portrait-man-2",   type: "Event Coverage",    date: "Jul 14, 2026", time: "5:00 PM",  price: 950000,  status: "completed" },
+  { id: "B006", client: "Mariam Udo",      avatar: "portrait-woman-1", type: "Headshots",         date: "May 30, 2026", time: "3:00 PM",  price: 180000,  status: "completed" },
+];
+
+// ── Portfolio ─────────────────────────────────────────────────────────────────
+
+export const dashPortfolio: DashPortfolioItem[] = [
+  { id: 1, img: "portrait-woman-5", title: "Studio Grace",       views: 1240, likes: 284, cat: "Portrait"  },
+  { id: 2, img: "fashion-1",        title: "Runway Light",       views: 3812, likes: 671, cat: "Fashion"   },
+  { id: 3, img: "lifestyle-1",      title: "Soft Motion",        views: 876,  likes: 145, cat: "Lifestyle" },
+  { id: 4, img: "wedding-1",        title: "First Dance",        views: 2103, likes: 398, cat: "Wedding"   },
+  { id: 5, img: "nature-1",         title: "Morning Ridge",      views: 5210, likes: 912, cat: "Nature"    },
+  { id: 6, img: "street-1",         title: "Lagos Geometry",     views: 1890, likes: 334, cat: "Street"    },
+  { id: 7, img: "corporate-1",      title: "Executive Presence", views: 1430, likes: 267, cat: "Corporate" },
+  { id: 8, img: "events-1",         title: "Reception Energy",   views: 2640, likes: 481, cat: "Events"    },
+  { id: 9, img: "fashion-2",        title: "Editorial Form",     views: 990,  likes: 178, cat: "Fashion"   },
+];
+
+// ── Activity feed ─────────────────────────────────────────────────────────────
+
+export const activityFeed: ActivityItem[] = [
+  { type: "sale",     text: "\"Fashion Editorial\" photo sold",         sub: "+₦38,000",    time: "2 min ago"  },
+  { type: "booking",  text: "New booking from Ngozi Adebayo",           sub: "Jun 15",      time: "18 min ago" },
+  { type: "review",   text: "5-star review from Tunde Williams",        sub: "Wedding",     time: "1 hr ago"   },
+  { type: "follow",   text: "Chioma Nwachukwu started following you",   sub: "+1 follower", time: "3 hrs ago"  },
+  { type: "download", text: "Portfolio export downloaded",              sub: "PDF",         time: "5 hrs ago"  },
+  { type: "payout",   text: "Weekly payout processed",                  sub: "+₦124,000",   time: "1 day ago"  },
+  { type: "view",     text: "Profile viewed 84 times today",            sub: "↑ 24%",       time: "Today"      },
+];

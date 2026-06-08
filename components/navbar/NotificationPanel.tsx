@@ -2,7 +2,7 @@
 
 import { Bell, X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { UImg } from "@/components/photohub/helpers";
+import { UImg } from "@/components/photohub/Helpers";
 import type { Notification, NotificationType } from "@/lib/photohub-data";
 
 // ── Icon map ────────────────────────────────────────────────────────────────
