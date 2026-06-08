@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Github, TrendingUp, CheckCircle } from "lucide-react";
@@ -22,9 +22,13 @@ export default function LoginPage() {
   const router = useRouter();
   const [role, setRole] = useState<"client" | "photographer">("client");
   const [remember, setRemember] = useState(false);
-  const [bgIndex] = useState(() =>
-    Math.floor(Math.random() * AUTH_LOGIN_BG.length),
-  );
+
+  const [bgIndex, setBgIndex] = useState(0);
+
+  useEffect(() => {
+    setBgIndex(Math.floor(Math.random() * AUTH_LOGIN_BG.length));
+  }, []);
+
   const [done, setDone] = useState(false);
 
   const featured = photographers[3];

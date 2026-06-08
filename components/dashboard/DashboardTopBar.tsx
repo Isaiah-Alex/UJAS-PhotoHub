@@ -9,16 +9,23 @@ import type { useNotifications } from "@/hooks/useNotifications";
 import type { DashTab } from "@/hooks/useDashboard";
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
+import { useDashboard } from "@/hooks/useDashboard";
 
 const me = photographers[0];
 
 interface Props {
   tab: DashTab;
+  onTabChange: (tab: DashTab) => void;
   notifications: ReturnType<typeof useNotifications>;
   onMenuClick: () => void;
 }
 
-export function DashboardTopBar({ tab, notifications, onMenuClick }: Props) {
+export function DashboardTopBar({
+  tab,
+  notifications,
+  onMenuClick,
+  onTabChange,
+}: Props) {
   const [notifOpen, setNotifOpen] = useState(false);
   const { notifs, unreadCount, markAllRead, dismiss } = notifications;
   const { user, isLoaded } = useUser();
@@ -89,13 +96,20 @@ export function DashboardTopBar({ tab, notifications, onMenuClick }: Props) {
 
         {/* Avatar */}
         <div className="w-9 h-9 rounded-xl overflow-hidden border border-border cursor-pointer">
-          <Image
-            src={user?.imageUrl ?? "/avatar.svg"}
-            width={500}
-            height={500}
-            alt={`${user?.firstName} profile`}
-            className="w-full h-full object-cover"
-          />
+          <button
+            onClick={() => {
+              onTabChange("settings");
+            }}
+            className="cursor-pointer"
+          >
+            <Image
+              src={user?.imageUrl ?? "/avatar.svg"}
+              width={500}
+              height={500}
+              alt={`${user?.firstName} profile`}
+              className="w-full h-full object-cover"
+            />
+          </button>
         </div>
       </div>
     </header>

@@ -112,7 +112,7 @@ export function SettingsTab({ settingsSection, onSectionChange }: Props) {
                   <div className="flex gap-2">
                     <button
                       onClick={openFilePicker}
-                      className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white"
+                      className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white cursor-pointer"
                       style={{
                         background:
                           "linear-gradient(135deg, var(--primary), var(--accent))",
@@ -123,7 +123,7 @@ export function SettingsTab({ settingsSection, onSectionChange }: Props) {
                     <button
                       onClick={removeImage}
                       disabled={!hasImage}
-                      className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white/40 border border-border hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white/40 border border-border hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                     >
                       Remove
                     </button>

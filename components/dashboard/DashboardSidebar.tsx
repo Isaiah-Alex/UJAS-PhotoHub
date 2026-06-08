@@ -84,7 +84,7 @@ export function DashboardSidebar({
         <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/4">
           <div className="w-10 h-10 rounded-xl overflow-hidden flex-shrink-0 border border-border">
             <Image
-              src={`${user?.imageUrl}`}
+              src={user?.imageUrl ?? "/avatar.svg"}
               alt={`${user?.firstName} profile photo`}
               width={500}
               height={500}
