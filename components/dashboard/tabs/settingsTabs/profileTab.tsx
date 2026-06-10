@@ -3,11 +3,13 @@ import { useUser } from "@clerk/nextjs";
 import { useProfileImage } from "@/hooks/useProfileImage";
 import { photographers } from "@/lib/photohub-data";
 import { X, PlusCircle } from "lucide-react";
+import { useUpdateName } from "@/hooks/useUpdateName";
 
 export default function ProfileTab() {
   const { user } = useUser();
   const me = photographers[0];
-  //image upload and delete variables
+
+  // upload and remove image variables
   const {
     inputRef,
     imageUrl,
@@ -17,6 +19,18 @@ export default function ProfileTab() {
     handleImageChange,
     removeImage,
   } = useProfileImage();
+
+  //update name filed variables
+  const { firstName, lastName, setFirstName, setLastName, updateName, saving } =
+    useUpdateName();
+
+  function splitFullName(fullName: string): void {
+    const firstName = fullName.split(" ")[0];
+    const lastName = fullName.split(" ")[1];
+
+    setFirstName(firstName);
+    setLastName(lastName);
+  }
 
   return (
     <>
@@ -74,9 +88,21 @@ export default function ProfileTab() {
       {/* Fields */}
       <div className="grid sm:grid-cols-2 gap-4">
         {[
-          { label: "Full Name", value: me.name, type: "text" },
-          { label: "Username", value: "adaeze_okafor", type: "text" },
-          { label: "Email", value: "adaeze@photo.ng", type: "email" },
+          {
+            label: "Full Name",
+            value: firstName + " " + lastName,
+            type: "text",
+          },
+          {
+            label: "Username",
+            value: firstName + "_" + lastName,
+            type: "text",
+          },
+          {
+            label: "Email",
+            value: user?.primaryEmailAddress?.emailAddress,
+            type: "email",
+          },
           { label: "Phone", value: "+234 801 234 5678", type: "tel" },
           { label: "Location", value: me.location, type: "text" },
           { label: "Website", value: "adaezeokafor.ng", type: "url" },

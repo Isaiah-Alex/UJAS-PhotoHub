@@ -28,7 +28,7 @@ import {
   gradPrimaryShadow,
   gradSuccess,
 } from "@/components/auth/shared";
-import { useAuth, useSignUp } from "@clerk/nextjs";
+import { useAuth, useSignUp, useUser } from "@clerk/nextjs";
 import { OtpStep } from "@/components/auth/Otp";
 
 const specialties = [
@@ -45,8 +45,7 @@ const specialties = [
 //  Main page
 export default function SignupPage() {
   const router = useRouter();
-  const { signUp, errors, fetchStatus } = useSignUp();
-  const { isSignedIn } = useAuth();
+  const { signUp } = useSignUp();
   const [role, setRole] = useState<"client" | "photographer">("client");
   const [step, setStep] = useState(1); // 1 = credentials, 2 = OTP, 3 = profile
   const [form, setForm] = useState({
@@ -60,6 +59,8 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const [step1Error, setStep1Error] = useState("");
+
+  const { user } = useUser();
 
   const testimonial = photographers[1];
   const update = (k: string, v: string) => setForm((f) => ({ ...f, [k]: v }));
@@ -89,6 +90,13 @@ export default function SignupPage() {
         return;
       }
 
+      if (!error) {
+        if (!user) return;
+        user.update({
+          unsafeMetadata: { role },
+        });
+      }
+
       if (!error) await signUp.verifications.sendEmailCode();
       setStep(2);
     } finally {
@@ -99,15 +107,13 @@ export default function SignupPage() {
   // step 3 → profile complete → fake submit + redirect
   const handleStep3 = (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    if (role === "photographer") {
       setDone(true);
-    }, 1400);
-    setTimeout(() => {
-      setDone(false);
+      router.push("/dashboard");
+    } else if (role === "client") {
+      setDone(true);
       router.push("/");
-    }, 2600);
+    }
   };
 
   const panelContent = {
@@ -309,19 +315,19 @@ export default function SignupPage() {
             >
               {step === 1 ? (
                 <>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <button
                       type="button"
                       className="flex items-center justify-center gap-2 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/8 text-sm text-white/65 hover:text-white transition-all"
                     >
                       <GoogleIcon />
-                      Google
+                      SignIn with Google
                     </button>
                     <button
                       type="button"
                       className="flex items-center justify-center gap-2 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/8 text-sm text-white/65 hover:text-white transition-all"
                     >
-                      <Github size={14} /> GitHub
+                      <Github size={14} /> SignIn with GitHub
                     </button>
                   </div>
 

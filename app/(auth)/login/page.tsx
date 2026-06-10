@@ -194,7 +194,7 @@ export default function LoginPage() {
             ))}
           </div>
 
-          <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className="grid grid-cols-1 gap-3 mb-6 md:grid-cols-2">
             <button
               type="button"
               className="flex items-center justify-center gap-2 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/8 text-sm text-white/70 hover:text-white transition-all"

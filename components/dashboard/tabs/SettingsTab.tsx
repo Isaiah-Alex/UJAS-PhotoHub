@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { photographers } from "@/lib/photohub-data";
 import type { SettingsSection } from "@/hooks/useDashboard";
-import { useProfileImage } from "@/hooks/useProfileImage";
 import ProfileTab from "./settingsTabs/profileTab";
 
 const me = photographers[0];
