@@ -39,9 +39,9 @@ export function OverviewTab({
     .slice(0, 4);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3 md:space-y-6 md:w-full">
       {/* KPI cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 lg:w-[100%] md:w-full">
         {[
           {
             label: "Total Earnings",
@@ -143,48 +143,52 @@ export function OverviewTab({
         </div>
 
         {/* Activity feed */}
-        <div className="p-5 rounded-2xl border border-border bg-card">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-display font-bold text-white text-sm">
-              Recent Activity
-            </h3>
-            <button className="text-xs text-primary hover:text-primary/80 transition-colors">
-              See all
-            </button>
-          </div>
-          <div className="space-y-4">
-            {activityFeed.map((a, i) => (
-              <div key={i} className="flex items-start gap-3">
-                <div
-                  className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 border border-border text-sm"
-                  style={{
-                    background: `color-mix(in srgb, ${activityColor[a.type]} 18%, transparent)`,
-                  }}
-                >
-                  {activityEmoji[a.type]}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs text-white/70 leading-snug">{a.text}</p>
-                  <div className="flex items-center justify-between mt-0.5">
-                    <span
-                      className="text-[10px] font-semibold"
-                      style={{ color: activityColor[a.type] }}
-                    >
-                      {a.sub}
-                    </span>
-                    <span className="text-[10px] text-muted-foreground">
-                      {a.time}
-                    </span>
+        <div className="overflow-x-scroll md:overflow-x-visible">
+          <div className="p-5 rounded-2xl border border-border bg-card w-full">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-display font-bold text-white text-sm">
+                Recent Activity
+              </h3>
+              <button className="text-xs text-primary hover:text-primary/80 transition-colors">
+                See all
+              </button>
+            </div>
+            <div className="space-y-4">
+              {activityFeed.map((a, i) => (
+                <div key={i} className="flex items-start gap-3">
+                  <div
+                    className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 border border-border text-sm"
+                    style={{
+                      background: `color-mix(in srgb, ${activityColor[a.type]} 18%, transparent)`,
+                    }}
+                  >
+                    {activityEmoji[a.type]}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs text-white/70 leading-snug">
+                      {a.text}
+                    </p>
+                    <div className="flex items-center justify-between mt-0.5">
+                      <span
+                        className="text-[10px] font-semibold"
+                        style={{ color: activityColor[a.type] }}
+                      >
+                        {a.sub}
+                      </span>
+                      <span className="text-[10px] text-muted-foreground">
+                        {a.time}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
       {/* Upcoming bookings + profile strength */}
-      <div className="grid lg:grid-cols-[1fr_280px] gap-4">
+      <div className="grid lg:grid-cols-[1fr_280px] gap-4 overflow-x-scroll md:overflow-x-hidded">
         {/* Upcoming sessions */}
         <div className="p-5 rounded-2xl border border-border bg-card">
           <div className="flex items-center justify-between mb-4">

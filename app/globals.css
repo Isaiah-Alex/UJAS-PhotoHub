@@ -4,6 +4,20 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:invalid {
+  -webkit-text-fill-color: white !important;
+  -webkit-box-shadow: 0 0 0 1000px #18181b inset !important;
+  /* your dark bg */
+  caret-color: rgb(0, 0, 0);
+}
+
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  border: 2px solid var(--color-primary);
+}
+
 @custom-variant dark (&:is(.dark *));
 
 :root {

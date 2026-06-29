@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
         evt.data;
       const fullName = `${first_name ?? ""} ${last_name ?? ""}`.trim();
       const email = email_addresses[0]?.email_address;
-      const role = evt.data.unsafe_metadata.role as string;
+      const role = (evt.data.unsafe_metadata.role as string) || "client";
 
       if (!email) {
         console.log("no email found, skipped insert");

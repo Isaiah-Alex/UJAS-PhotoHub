@@ -61,6 +61,15 @@ export default function Navbar({ scrolled, notifications }: Props) {
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
+  function handleLogout() {
+    if (open) {
+      signOut({ redirectUrl: "/login" });
+    } else {
+      signOut({ redirectUrl: "/login" });
+      setOpen(false);
+    }
+  }
+
   return (
     <>
       {/* Search overlay — rendered at root so it sits above everything */}
@@ -183,7 +192,7 @@ export default function Navbar({ scrolled, notifications }: Props) {
               )}
               {isSignedIn && (
                 <button
-                  onClick={() => signOut({ redirectUrl: "/login" })}
+                  onClick={handleLogout}
                   className="px-4 py-2 rounded-xl text-sm font-medium text-white/60 hover:text-white transition-all border-none"
                 >
                   logout
@@ -275,16 +284,35 @@ export default function Navbar({ scrolled, notifications }: Props) {
                 </Link>
               ))}
               <div className="pt-3 border-t border-white/10 flex flex-col gap-2">
-                <Link href="/login" onClick={() => setOpen(false)}>
-                  <GlassBtn className="w-full py-2.5 rounded-xl text-sm">
-                    Login
+                {!isSignedIn && (
+                  <Link href="/login" onClick={() => setOpen(false)}>
+                    <GlassBtn className="w-full py-2.5 rounded-xl text-sm">
+                      Login
+                    </GlassBtn>
+                  </Link>
+                )}
+                {isSignedIn && (
+                  <GlassBtn
+                    onClick={handleLogout}
+                    className="w-full py-2.5 rounded-xl text-sm"
+                  >
+                    logout
                   </GlassBtn>
-                </Link>
-                <Link href="/signup" onClick={() => setOpen(false)}>
-                  <GradBtn className="w-full py-2.5 rounded-xl text-sm">
-                    Get Started
-                  </GradBtn>
-                </Link>
+                )}
+                {!isSignedIn && (
+                  <Link href="/signup" onClick={() => setOpen(false)}>
+                    <GradBtn className="w-full py-2.5 rounded-xl text-sm">
+                      Get Started
+                    </GradBtn>
+                  </Link>
+                )}
+                {isSignedIn && (
+                  <Link href="/dashboard" onClick={() => setOpen(false)}>
+                    <GradBtn className="w-full py-2.5 rounded-xl text-sm">
+                      Dashboard
+                    </GradBtn>
+                  </Link>
+                )}
               </div>
             </div>
           )}

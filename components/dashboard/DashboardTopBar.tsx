@@ -9,7 +9,6 @@ import type { useNotifications } from "@/hooks/useNotifications";
 import type { DashTab } from "@/hooks/useDashboard";
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
-import { useDashboard } from "@/hooks/useDashboard";
 
 const me = photographers[0];
 
@@ -36,12 +35,12 @@ export function DashboardTopBar({
       style={{ background: "rgba(5,5,5,0.9)", backdropFilter: "blur(20px)" }}
     >
       <div className="flex items-center gap-3">
-        <button
+        {/* <button
           onClick={onMenuClick}
           className="lg:hidden w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-white/50"
         >
           <Menu size={16} />
-        </button>
+        </button> */}
         <div>
           <h1 className="font-display font-bold text-white text-lg capitalize">
             {tab}
@@ -95,7 +94,7 @@ export function DashboardTopBar({
         </div>
 
         {/* Avatar */}
-        <div className="w-9 h-9 rounded-xl overflow-hidden border border-border cursor-pointer">
+        <div className="w-9 h-9 rounded-xl hidden  md:block overflow-hidden border border-border cursor-pointer">
           <button
             onClick={() => {
               onTabChange("settings");

@@ -16,7 +16,7 @@ export default function DashboardPage() {
   const dash = useDashboard();
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background flex w-screen">
       <DashboardSidebar
         tab={dash.tab}
         onTabChange={dash.setTab}
@@ -24,7 +24,7 @@ export default function DashboardPage() {
         pendingCount={dash.pendingCount}
       />
 
-      <div className="flex-1 lg:ml-64 min-h-screen max-[1023px]:ml-[72px]">
+      <div className="flex-1 lg:ml-64 min-h-screen max-[1023px]:ml-[68px] ">
         <DashboardTopBar
           tab={dash.tab}
           onTabChange={dash.setTab}
@@ -32,7 +32,7 @@ export default function DashboardPage() {
           onMenuClick={() => dash.setSidebarOpen((v) => !v)}
         />
 
-        <main className="p-6 space-y-6 max-w-[1200px]">
+        <main className="p-3 md:p-6 md:ml-8 space-y-3 md:space-y-6 md:max-w-[1200px] w-full md:w-[90%]">
           {dash.tab === "overview" && (
             <OverviewTab
               confirmedCount={dash.confirmedCount}

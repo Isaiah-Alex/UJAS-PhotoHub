@@ -5,8 +5,8 @@ import Navbar from "@/components/navbar/Navbar";
 import { useNotifications } from "@/hooks/useNotifications";
 
 export default function AppLayout({
-                                    children,
-                                  }: Readonly<{ children: React.ReactNode }>) {
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   const [scrolled, setScrolled] = useState(false);
   const notifications = useNotifications();
 
@@ -17,9 +17,9 @@ export default function AppLayout({
   }, []);
 
   return (
-      <div className="min-h-screen bg-background text-white">
-        <Navbar scrolled={scrolled} notifications={notifications} />
-        {children}
-      </div>
+    <div className="min-h-full w-screen bg-background text-white overflow-x-hidden">
+      <Navbar scrolled={scrolled} notifications={notifications} />
+      {children}
+    </div>
   );
 }

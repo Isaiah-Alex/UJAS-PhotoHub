@@ -9,11 +9,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // @ts-ignore
-  reactCompiler: {
-    target: "18",
-    runtimeModule: "react-compiler-runtime",
-  },
+  reactCompiler: true,
 };
 
 export default nextConfig;

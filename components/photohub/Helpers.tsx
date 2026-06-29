@@ -17,9 +17,26 @@ export const UImg = ({
     alt={alt}
     className={className}
     loading="lazy"
-    width={800}
-    height={1000}
+    width={400}
+    height={500}
+  />
+);
 
+export const CoverImg = ({
+  name,
+  alt,
+  className,
+}: {
+  name: ImageKey;
+  alt: string;
+  className?: string;
+}) => (
+  <Image
+    src={imageSrc(name)}
+    alt={alt}
+    className={className}
+    loading="lazy"
+    fill
   />
 );
 
@@ -29,7 +46,11 @@ export const Stars = ({ rating }: { rating: number }) => (
       <Star
         key={i}
         size={11}
-        className={i <= Math.round(rating) ? "fill-primary text-primary" : "text-white/20 fill-white/10"}
+        className={
+          i <= Math.round(rating)
+            ? "fill-primary text-primary"
+            : "text-white/20 fill-white/10"
+        }
       />
     ))}
   </div>

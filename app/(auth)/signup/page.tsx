@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -14,8 +14,6 @@ import {
   Star,
   CheckCircle,
   ArrowRight,
-  ShieldCheck,
-  RefreshCw,
 } from "lucide-react";
 import { photographers } from "@/lib/photohub-data";
 import {
@@ -28,8 +26,10 @@ import {
   gradPrimaryShadow,
   gradSuccess,
 } from "@/components/auth/shared";
-import { useAuth, useSignUp, useUser } from "@clerk/nextjs";
+import { useClerk, useSignUp } from "@clerk/nextjs";
 import { OtpStep } from "@/components/auth/Otp";
+import { createPhotographerProfile } from "@/lib/actions/photographers";
+import { updateProfileRole } from "@/lib/actions/profiles";
 
 const specialties = [
   "Portrait",
@@ -42,10 +42,12 @@ const specialties = [
   "Events",
 ];
 
-//  Main page
 export default function SignupPage() {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const { signUp } = useSignUp();
+  const { setActive } = useClerk();
+
   const [role, setRole] = useState<"client" | "photographer">("client");
   const [step, setStep] = useState(1); // 1 = credentials, 2 = OTP, 3 = profile
   const [form, setForm] = useState({
@@ -57,63 +59,64 @@ export default function SignupPage() {
   });
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [done, setDone] = useState(false);
   const [step1Error, setStep1Error] = useState("");
-
-  const { user } = useUser();
 
   const testimonial = photographers[1];
   const update = (k: string, v: string) => setForm((f) => ({ ...f, [k]: v }));
 
-  // step 1: create Clerk user + send OTP then advance to step 2
+  // Step 1: create Clerk user + send OTP
   const handleStep1 = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!signUp) return;
     setLoading(true);
     setStep1Error("");
-    console.log("continueing..");
+
     try {
       const emailAddress = form.email;
       const password = form.password;
-      const firstName = form.name.split(" ")[0];
-      const lastName = form.name.split(" ").slice(1).join(" ") || undefined;
+      const nameParts = form.name.trim().split(/\s+/);
+      const firstName = nameParts[0] ?? "";
+      const lastName = nameParts.length > 1 ? nameParts.slice(1).join("") : "";
 
       const { error } = await signUp.password({
         emailAddress,
         password,
+        firstName,
+        lastName: lastName || undefined,
       });
 
       if (error) {
-        console.log(JSON.stringify(error, null, 2));
         setStep1Error(error.message);
-        console.log(setStep1Error);
         return;
       }
 
-      if (!error) {
-        if (!user) return;
-        user.update({
-          unsafeMetadata: { role },
-        });
-      }
-
-      if (!error) await signUp.verifications.sendEmailCode();
+      await signUp.verifications.sendEmailCode();
       setStep(2);
+    } catch (err: any) {
+      const msg =
+        err?.errors?.[0]?.message ?? "Something went wrong. Try again.";
+      setStep1Error(msg);
     } finally {
       setLoading(false);
     }
   };
 
-  // step 3 → profile complete → fake submit + redirect
+  // Step 3: redirect after profile setup
   const handleStep3 = (e: React.FormEvent) => {
     e.preventDefault();
-    if (role === "photographer") {
-      setDone(true);
-      router.push("/dashboard");
-    } else if (role === "client") {
-      setDone(true);
-      router.push("/");
-    }
+
+    startTransition(async () => {
+      if (role === "photographer") {
+        await createPhotographerProfile({
+          specialty: form.specialty,
+          location: form.location,
+        });
+        await setActive({ session: signUp?.createdSessionId });
+        router.push("/dashboard");
+      } else {
+        router.push("/");
+      }
+    });
   };
 
   const panelContent = {
@@ -163,7 +166,7 @@ export default function SignupPage() {
         </div>
 
         <div className="relative z-10 space-y-6">
-          {/* step indicators — now 3 */}
+          {/* step indicators */}
           <div className="flex items-center gap-3">
             {[1, 2, 3].map((s) => (
               <div key={s} className="flex items-center gap-2">
@@ -301,11 +304,16 @@ export default function SignupPage() {
             </div>
           )}
 
-          {/* ── step 2: OTP (rendered as its own component) ── */}
+          {/* step 2: OTP */}
           {step === 2 ? (
             <OtpStep
               email={form.email}
-              onVerified={() => setStep(3)}
+              role={role}
+              onVerified={async (verifiedRole) => {
+                // update the profile role in Supabase
+                await updateProfileRole(verifiedRole);
+                setStep(3);
+              }}
               onBack={() => setStep(1)}
             />
           ) : (
@@ -321,13 +329,13 @@ export default function SignupPage() {
                       className="flex items-center justify-center gap-2 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/8 text-sm text-white/65 hover:text-white transition-all"
                     >
                       <GoogleIcon />
-                      SignIn with Google
+                      Sign in with Google
                     </button>
                     <button
                       type="button"
                       className="flex items-center justify-center gap-2 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/8 text-sm text-white/65 hover:text-white transition-all"
                     >
-                      <Github size={14} /> SignIn with GitHub
+                      <Github size={14} /> Sign in with GitHub
                     </button>
                   </div>
 
@@ -511,7 +519,9 @@ export default function SignupPage() {
                   </div>
                 </>
               )}
+
               <div id="clerk-captcha" />
+
               <div className="flex gap-3 pt-1">
                 {step === 3 && (
                   <button
@@ -524,19 +534,15 @@ export default function SignupPage() {
                 )}
                 <button
                   type="submit"
-                  disabled={loading || done}
+                  disabled={loading || isPending}
                   className="flex-1 py-3.5 rounded-xl text-sm font-bold text-white transition-all relative"
-                  style={
-                    done
-                      ? gradSuccess
-                      : {
-                          ...gradPrimary,
-                          boxShadow: "0 0 24px var(--primary-glow)",
-                          opacity: loading ? 0.8 : 1,
-                        }
-                  }
+                  style={{
+                    ...gradPrimary,
+                    boxShadow: "0 0 24px var(--primary-glow)",
+                    opacity: loading || isPending ? 0.8 : 1,
+                  }}
                 >
-                  {loading ? (
+                  {loading || isPending ? (
                     <span className="flex items-center justify-center gap-2">
                       <svg
                         className="animate-spin w-4 h-4"
@@ -559,10 +565,6 @@ export default function SignupPage() {
                       </svg>
                       {step === 1 ? "Continuing…" : "Creating account…"}
                     </span>
-                  ) : done ? (
-                    <span className="flex items-center justify-center gap-2">
-                      <CheckCircle size={15} /> Welcome aboard!
-                    </span>
                   ) : step === 1 ? (
                     <span className="flex items-center justify-center gap-1.5">
                       Continue <ArrowRight size={14} />
@@ -572,6 +574,7 @@ export default function SignupPage() {
                   )}
                 </button>
               </div>
+
               {step1Error && (
                 <p className="text-red-400/80 text-xs flex items-center gap-1.5 pt-1">
                   <span className="w-1 h-1 rounded-full bg-red-400 inline-block" />

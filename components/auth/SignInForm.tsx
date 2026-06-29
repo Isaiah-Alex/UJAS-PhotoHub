@@ -14,7 +14,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authInputStyle, gradPrimary } from "./shared";
 
-export default function SignInForm({ onComplete }: { onComplete: () => void }) {
+export default function SignInForm({
+  onComplete,
+  setDisplayOtherSignIn,
+}: {
+  onComplete: () => void;
+  setDisplayOtherSignIn: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const router = useRouter();
   const { signIn, errors, fetchStatus } = useSignIn();
   const [showPass, setShowPass] = useState(false);
@@ -63,6 +69,7 @@ export default function SignInForm({ onComplete }: { onComplete: () => void }) {
       if (emailCodeFactor) {
         await signIn.mfa.sendEmailCode();
         setVerifying(true);
+        setDisplayOtherSignIn(false);
       }
     } else {
       console.error("Sign-in attempt not complete:", signIn);

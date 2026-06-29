@@ -19,9 +19,9 @@ import SignInForm from "@/components/auth/SignInForm";
 
 // ─── Main LoginPage ───────────────────────────────────────────────────────────
 export default function LoginPage() {
-  const router = useRouter();
   const [role, setRole] = useState<"client" | "photographer">("client");
   const [remember, setRemember] = useState(false);
+  const [displayOtherSignIn, setDisplayOtherSignIn] = useState(true);
 
   const [bgIndex, setBgIndex] = useState(0);
 
@@ -173,7 +173,7 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <div
+          {/* <div
             className="flex p-1 rounded-2xl mb-8 border border-white/8"
             style={{ background: "rgba(15,15,15,0.8)" }}
           >
@@ -192,32 +192,36 @@ export default function LoginPage() {
                 {r === "client" ? "I'm a Client" : "I'm a Photographer"}
               </button>
             ))}
-          </div>
+          </div> */}
+          {/* continue with google or github */}
+          {displayOtherSignIn && (
+            <>
+              <div className="grid grid-cols-1 gap-3 mb-6 md:grid-cols-2">
+                <button
+                  type="button"
+                  className="flex items-center justify-center gap-2 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/8 text-sm text-white/70 hover:text-white transition-all"
+                >
+                  <GoogleIcon />
+                  Continue with Google
+                </button>
+                <button
+                  type="button"
+                  className="flex items-center justify-center gap-2 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/8 text-sm text-white/70 hover:text-white transition-all"
+                >
+                  <Github size={15} />
+                  Continue with GitHub
+                </button>
+              </div>
 
-          <div className="grid grid-cols-1 gap-3 mb-6 md:grid-cols-2">
-            <button
-              type="button"
-              className="flex items-center justify-center gap-2 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/8 text-sm text-white/70 hover:text-white transition-all"
-            >
-              <GoogleIcon />
-              Continue with Google
-            </button>
-            <button
-              type="button"
-              className="flex items-center justify-center gap-2 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/8 text-sm text-white/70 hover:text-white transition-all"
-            >
-              <Github size={15} />
-              Continue with GitHub
-            </button>
-          </div>
-
-          <div className="flex items-center gap-4 mb-6">
-            <div className="flex-1 h-px bg-white/8" />
-            <span className="text-xs text-white/25 font-medium">
-              or sign in with email
-            </span>
-            <div className="flex-1 h-px bg-white/8" />
-          </div>
+              <div className="flex items-center gap-4 mb-6">
+                <div className="flex-1 h-px bg-white/8" />
+                <span className="text-xs text-white/25 font-medium">
+                  or sign in with email
+                </span>
+                <div className="flex-1 h-px bg-white/8" />
+              </div>
+            </>
+          )}
 
           {done ? (
             <div
@@ -228,7 +232,10 @@ export default function LoginPage() {
             </div>
           ) : (
             <>
-              <SignInForm onComplete={() => setDone(true)} />
+              <SignInForm
+                onComplete={() => setDone(true)}
+                setDisplayOtherSignIn={setDisplayOtherSignIn}
+              />
 
               <div className="flex items-center gap-3 pt-4">
                 <button
